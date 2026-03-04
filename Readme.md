@@ -12,12 +12,18 @@ The visual upgrade for the integrated OLED screen:Dependency Management: Handles
 
 🚀 Installation & Usage
 Step 1: System Debloat & Docker SetupRun the debloat script to clean the system and install Docker.Bash# Download and execute the debloat script
-curl -O https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/uck-debloat.sh
+
+curl -O https://raw.githubusercontent.com/mav3r10k/OWN_UCKGEN2/main/uck-debloat.sh
 sudo bash uck-debloat.sh | tee /tmp/debloat.log
+
 Step 2: Install Custom Display DaemonAfter the system is prepared, install the new OLED interface.Bash# Download and execute the display installer
-curl -O https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/uck-display-install.sh
+
+curl -O https://raw.githubusercontent.com/mav3r10k/OWN_UCKGEN2/main/uck-display-install.sh
 sudo bash uck-display-install.sh
-Step 3: Manage ContainersYour Docker environment is now ready at /srv/compose.Bashcd /srv/compose
+
+Step 3: Manage ContainersYour Docker environment is now ready at /srv/compose.
+Bash
+cd /srv/compose
 docker compose up -d
 
 📊 System Impact (Typical Results)MetricFactory StateAfter DebloatRAM Usage~1.6 GB~400 MBStorage RootInternal eMMCHDD/SSD (/srv)OLED UIUbiquiti DefaultCustom Stats (v3)🛠️ MaintenanceCheck the Display Logs:Bashjournalctl -u uck-display -f
