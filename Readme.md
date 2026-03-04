@@ -1,14 +1,30 @@
 # Own my Unifi Cloud KEy Gen2
 
-UCK-G2 Repurpose Suite: Debloat, Docker & Custom DisplayThis repository contains a suite of scripts to transform a Ubiquiti Cloud Key Gen2 (Plus) into a lean, powerful Docker host. It disables resource-heavy UniFi services and replaces the default OLED UI with a custom, real-time system monitor.[!WARNING]Experimental: Running these scripts will stop and disable original UniFi services (Network, Protect, etc.). This is intended for users who want to repurpose the hardware for Docker, Pi-hole, and other homelab services.📦 Included Scripts1. uck-debloat.shThe "heavy lifter" script that prepares the hardware for a new life.Service Cleanup: Stops and disables 15+ UniFi services (MongoDB, PostgreSQL, Identity, etc.) to free up RAM.Storage Optimization: Maps Docker's data-root to /srv (which has ~19GB on the Gen2 Plus) to protect the internal flash.Docker Engine: Installs the latest Docker CE (ARM64) and Docker Compose.Kernel Tuning: Optimizes swappiness and enables ip_forwarding for container networking.Default Stack: Deploys a starter docker-compose.yml featuring Pi-hole and Avahi.2. uck-display-install.shThe visual upgrade for your device.Dependency Management: Automatically installs Python Pillow for OLED rendering.UI Replacement: Disables the factory ck-ui service and replaces it with your custom uck-display.py.Systemd Integration: Sets up a robust background service with auto-restart and logging.🚀 Quick StartStep 1: Debloat and Install DockerExecute the debloat script to clean the system and install the Docker environment.Bashcurl -O https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/uck-debloat.sh
+UCK-G2 Repurpose Suite: Debloat, Docker & Custom DisplayThis repository contains a suite of scripts designed to transform a Ubiquiti Cloud Key Gen2 (Plus) into a lean, high-performance Docker host. By disabling resource-heavy UniFi services and replacing the factory OLED UI, you can reclaim system resources for your own homelab services.
+
+[!WARNING]Experimental: These scripts will stop and disable original UniFi services like Network and Protect. This is intended for users repurposing the hardware for Docker, Pi-hole, and other custom applications.
+
+📦 Component Overview1. uck-debloat.shThe core script that strips down the OS and prepares the Docker environment:Service Cleanup: Stops and disables over 15 UniFi-specific services (e.g., MongoDB, PostgreSQL, unifi-core) to significantly reduce RAM usage.Storage Optimization: Creates a dedicated Docker data-root on /srv (utilizing the ~19GB HDD/SSD space on the Plus model) to prevent wearing out the internal eMMC flash.
+
+Docker Engine: Automatically installs the latest Docker CE (ARM64) and Docker Compose plugin.System Tuning: Optimizes Kernel parameters such as swappiness and enables ip_forwarding for stable container networking.Default Stack: Deploys a starter docker-compose.yml including Pi-hole (DNS) and Avahi (mDNS reflector).2. uck-display-install.sh
+
+The visual upgrade for the integrated OLED screen:Dependency Management: Handles the installation of the Python Pillow library required for rendering.UI Replacement: Disables the factory ck-ui and installs the custom uck-display.py as a system service.Systemd Integration: Configures a robust background service with automatic restarts and logging.
+
+🚀 Installation & Usage
+Step 1: System Debloat & Docker SetupRun the debloat script to clean the system and install Docker.Bash# Download and execute the debloat script
+curl -O https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/uck-debloat.sh
 sudo bash uck-debloat.sh | tee /tmp/debloat.log
-Step 2: Install the Custom DisplayOnce the system is clean, install the custom display daemon to regain control over the OLED screen.Bashcurl -O https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/uck-display-install.sh
+Step 2: Install Custom Display DaemonAfter the system is prepared, install the new OLED interface.Bash# Download and execute the display installer
+curl -O https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/uck-display-install.sh
 sudo bash uck-display-install.sh
-Step 3: Launch your ContainersNavigate to the pre-configured compose directory and start your services:Bashcd /srv/compose
+Step 3: Manage ContainersYour Docker environment is now ready at /srv/compose.Bashcd /srv/compose
 docker compose up -d
-📊 System Overview (Post-Debloat)After running the suite, the resource footprint on the UCK-G2 is significantly reduced:MetricBeforeAfterRAM Usage~1.6 GB~400 MBActive Services20+ UniFi DaemonsDocker + System BasicsStorage RootInternal eMMCHDD/SSD (/srv)🛠️ Maintenance & LogsMonitor the Display Daemon:Bashjournalctl -fu uck-display
-Check Docker Status:Bashdocker ps
-Adjusting Display Brightness:The script automatically sets the brightness to maximum, but you can manually adjust it via:Bashecho 15 > /sys/class/backlight/fb_sp8110/brightness
+
+📊 System Impact (Typical Results)MetricFactory StateAfter DebloatRAM Usage~1.6 GB~400 MBStorage RootInternal eMMCHDD/SSD (/srv)OLED UIUbiquiti DefaultCustom Stats (v3)🛠️ MaintenanceCheck the Display Logs:Bashjournalctl -u uck-display -f
+Monitor System Services:Bashsystemctl status uck-display.service
+Restart the Display Daemon:Bashsystemctl restart uck-display
+
+
 🤝 ContributionsFeel free to submit Pull Requests to add new screens to the Python daemon or optimize the debloat list for newer firmware versions.
 
 ---
