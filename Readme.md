@@ -1,7 +1,3 @@
-Hier ist dein Text sauber und strukturiert im **Markdown-Format** formatiert:
-
----
-
 # Own my UniFi Cloud Key Gen2
 
 ## UCK-G2 Repurpose Suite: Debloat, Docker & Custom Display
